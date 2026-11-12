@@ -8,9 +8,10 @@
   },
   "main": "dist/src/index.js",
   "files": [
-    "dist",
+    "dist/src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "SECURITY.md"
   ],
   "scripts": {
     "build": "tsc && chmod +x dist/src/index.js",
@@ -18,10 +19,16 @@
     "inspect": "npm run build && npx @modelcontextprotocol/inspector node dist/src/index.js"
   },
   "keywords": [
-    "mcp",
-    "model-context-protocol",
+    "ai-agents",
+    "claude",
     "gitleaks",
+    "llm",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "secret-scanning",
     "secrets",
+    "secrets-detection",
     "security"
   ],
   "license": "MIT",
@@ -44,5 +51,6 @@
   "homepage": "https://github.com/matiasburni/gitleaks-mcp#readme",
   "bugs": {
     "url": "https://github.com/matiasburni/gitleaks-mcp/issues"
-  }
+  },
+  "mcpName": "io.github.matiasburni/gitleaks-mcp"
 }

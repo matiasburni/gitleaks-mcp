@@ -1,5 +1,9 @@
 # gitleaks-mcp
 
+[![CI](https://github.com/matiasburni/gitleaks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/matiasburni/gitleaks-mcp/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![MCP](https://img.shields.io/badge/MCP-server-blue)](https://modelcontextprotocol.io)
+
 An [MCP](https://modelcontextprotocol.io) server that lets an AI agent scan code, staged changes and text snippets for hardcoded secrets using [gitleaks](https://gitleaks.io).
 
 **Secrets never reach the model.** Every scan runs with `--redact`, and the `Match`/`Secret` fields are dropped before results are returned. The agent only sees rule, file, line, commit and fingerprint.
@@ -18,6 +22,30 @@ An [MCP](https://modelcontextprotocol.io) server that lets an AI agent scan code
 All tools are read-only and take `max_findings` (default 50); the total count is always reported.
 
 Also provided: resource `gitleaks://about` (engine version and guarantees) and prompt `pre-push-check`.
+
+## Example
+
+Ask your agent *"scan this snippet for secrets"* (or call `scan_text`). The token is reported by rule and line, never by value:
+
+```json
+{
+  "summary": "1 potential secret(s) found. Values are redacted.",
+  "findingsCount": 1,
+  "truncated": false,
+  "findings": [
+    {
+      "rule": "github-pat",
+      "description": "Uncovered a GitHub Personal Access Token, ...",
+      "file": "",
+      "startLine": 1,
+      "endLine": 1,
+      "fingerprint": ":github-pat:1"
+    }
+  ]
+}
+```
+
+Typical prompts: *"scan my staged changes before I commit"*, *"check the commits I'm about to push"*, *"does this config file contain secrets?"*
 
 ## Requirements
 
@@ -51,10 +79,10 @@ npm test   # builds, then runs MCP-client end-to-end tests against real gitleaks
 
 Test secrets are assembled at runtime so no secret-shaped literal is committed.
 
-## License
-
-MIT - see [LICENSE](LICENSE). Permissive on purpose, so you can reuse, fork and learn from it.
-
 ## Security
 
 See [SECURITY.md](SECURITY.md) for the threat model, hardening and known limits (notably: only scan repositories you trust).
+
+## License
+
+MIT - see [LICENSE](LICENSE). Permissive on purpose, so you can reuse, fork and learn from it.
